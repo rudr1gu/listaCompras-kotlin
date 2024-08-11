@@ -3,6 +3,7 @@ package com.example.listadecompras
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ShoppingListScreen()
+                    ListaComprasScreen()
                 }
             }
         }
@@ -31,9 +32,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ShoppingListScreen() {
-    var itemName by remember { mutableStateOf("") }
-    val shoppingList = remember { mutableStateListOf<String>() }
+fun ListaComprasScreen() {
+    var produto by remember { mutableStateOf("") }
+    val listaCompras = remember { mutableStateListOf<String>() }
 
     Column(
         modifier = Modifier
@@ -43,8 +44,8 @@ fun ShoppingListScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BasicTextField(
-            value = itemName,
-            onValueChange = { itemName = it },
+            value = produto,
+            onValueChange = { produto = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -55,17 +56,17 @@ fun ShoppingListScreen() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Button(onClick = {
-                if (itemName.isNotBlank()) {
-                    shoppingList.add(itemName)
-                    itemName = ""
+                if (produto.isNotBlank()) {
+                    listaCompras.add(produto)
+                    produto = ""
                 }
             }) {
                 Text("Adicionar")
             }
 
             Button(onClick = {
-                shoppingList.remove(itemName)
-                itemName = ""
+                listaCompras.remove(produto)
+                produto = ""
             }) {
                 Text("Remover")
             }
@@ -75,11 +76,11 @@ fun ShoppingListScreen() {
 
         Text("Lista de Compras:")
 
-        if (shoppingList.isEmpty()) {
+        if (listaCompras.isEmpty()) {
             Text("Nenhum item na lista")
         } else {
             Column {
-                shoppingList.forEach { item ->
+                listaCompras.forEach { item ->
                     Text(text = item)
                 }
             }
@@ -91,6 +92,6 @@ fun ShoppingListScreen() {
 @Composable
 fun DefaultPreview() {
     ListadecomprasTheme {
-        ShoppingListScreen()
+        ListaComprasScreen()
     }
 }
